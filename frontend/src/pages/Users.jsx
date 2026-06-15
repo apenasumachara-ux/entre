@@ -19,6 +19,19 @@ function Users() {
     }
   }
 
+  async function deleteUser(id) {
+    try {
+      await axios.delete(
+        `http://localhost:3001/api/users/${id}`
+      );
+
+      loadUsers();
+    } catch (err) {
+      console.error(err);
+      setError("Erro ao excluir usuário");
+    }
+  }
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -29,9 +42,9 @@ function Users() {
 
       {error && <p>{error}</p>}
 
-        <Link to="/">
-            Voltar para Home
-        </Link>
+      <Link to="/">
+        Voltar para Home
+      </Link>
 
       <ul>
         {users.map((user) => (
@@ -39,6 +52,14 @@ function Users() {
             <strong>{user.username}</strong>
             {" - "}
             {user.email}
+
+            {" "}
+
+            <button
+              onClick={() => deleteUser(user.id)}
+            >
+              Excluir
+            </button>
           </li>
         ))}
       </ul>

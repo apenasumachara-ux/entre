@@ -31,7 +31,21 @@ async function createUser(username, email) {
   return result.rows[0];
 }
 
+async function deleteUser(id) {
+  const result = await pool.query(
+    `
+    DELETE FROM users
+    WHERE id = $1
+    RETURNING *
+    `,
+    [id]
+  );
+
+  return result.rows[0];
+}
+
 module.exports = {
   createUser,
-  getUsers
+  getUsers,
+  deleteUser
 };

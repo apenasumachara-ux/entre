@@ -36,4 +36,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await userService.deleteUser(id);
+
+    res.json(user);
+
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: "Erro ao excluir usuário"
+    });
+  }
+});
+
 module.exports = router;
