@@ -44,8 +44,24 @@ async function deleteUser(id) {
   return result.rows[0];
 }
 
+async function updateUser(id, username, email) {
+  const result = await pool.query(
+    `
+    UPDATE users
+    SET username = $1,
+        email = $2
+    WHERE id = $3
+    RETURNING *
+    `,
+    [username, email, id]
+  );
+
+  return result.rows[0];
+}
+
 module.exports = {
   createUser,
   getUsers,
-  deleteUser
+  deleteUser,
+  updateUser
 };

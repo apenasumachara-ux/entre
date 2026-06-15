@@ -6,6 +6,10 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
 
+  const [editingId, setEditingId] = useState(null);
+  const [editUsername, setEditUsername] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+
   async function loadUsers() {
     try {
       const response = await axios.get(
@@ -32,6 +36,33 @@ function Users() {
     }
   }
 
+  function startEdit(user) {
+    setEditingId(user.id);
+    setEditUsername(user.username);
+    setEditEmail(user.email);
+  }
+
+  async function updateUser() {
+    try {
+      await axios.put(
+        `http://localhost:3001/api/users/${editingId}`,
+        {
+          username: editUsername,
+          email: editEmail
+        }
+      );
+
+      setEditingId(null);
+      setEditUsername("");
+      setEditEmail("");
+
+      loadUsers();
+    } catch (err) {
+      console.error(err);
+      setError("Erro ao atualizar usuário");
+    }
+  }
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -49,17 +80,57 @@ function Users() {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            <strong>{user.username}</strong>
-            {" - "}
-            {user.email}
+            {editingId === user.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editUsername}
+                  onChange={(e) =>
+                    setEditUsername(e.target.value)
+                  }
+                />
 
-            {" "}
+                <input
+                  type="email"
+                  value={editEmail}
+                  onChange={(e) =>
+                    setEditEmail(e.target.value)
+                  }
+                />
 
-            <button
-              onClick={() => deleteUser(user.id)}
-            >
-              Excluir
-            </button>
+                <button onClick={updateUser}>
+                  Salvar
+                </button>
+
+                <button
+                  onClick={() => setEditingId(null)}
+                >
+                  Cancelar
+                </button>
+              </>
+            ) : (
+              <>
+                <strong>{user.username}</strong>
+                {" - "}
+                {user.email}
+
+                {" "}
+
+                <button
+                  onClick={() => startEdit(user)}
+                >
+                  Editar
+                </button>
+
+                {" "}
+
+                <button
+                  onClick={() => deleteUser(user.id)}
+                >
+                  Excluir
+                </button>
+              </>
+            )}
           </li>
         ))}
       </ul>

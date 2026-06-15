@@ -36,6 +36,8 @@ router.post("/", async (req, res) => {
   }
 });
 
+
+//deletar
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -52,5 +54,31 @@ router.delete("/:id", async (req, res) => {
     });
   }
 });
+
+//pra editar
+router.put("/:id", async (req, res) => {
+  console.log("PARAMS:", req.params);
+  console.log("BODY:", req.body);
+
+  try {
+    const { id } = req.params;
+    const { username, email } = req.body;
+
+    const user = await userService.updateUser(
+      id,
+      username,
+      email
+    );
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: "Erro ao atualizar usuário"
+    });
+  }
+});
+
 
 module.exports = router;
