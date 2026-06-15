@@ -1,0 +1,14 @@
+{
+  "discord": {
+    "clientID": "",
+    "secretKey": "",
+    "redirectURI": "/auth/discord/callback",
+    "scope": ["identify"]
+  },
+  "github": {
+    "clientID": "",
+    "secretKey": "",
+    "redirectURI": "/auth/github/callback",
+    "scope": ["read:user"]
+  }
+}
