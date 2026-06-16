@@ -6,6 +6,19 @@ async function getUsers() {
 }
 
 async function createUser(username, email) {
+
+  if (!username?.trim()) {
+    throw new Error("Nome obrigatório");
+  }
+
+  if (!email?.trim()) {
+    throw new Error("Email obrigatório");
+  }
+
+  if (!email.includes("@")) {
+    throw new Error("Email inválido");
+  }
+
   const existingUser = await pool.query(
     `
     SELECT id
@@ -45,6 +58,18 @@ async function deleteUser(id) {
 }
 
 async function updateUser(id, username, email) {
+
+  if (!username?.trim()) {
+    throw new Error("Nome obrigatório");
+  }
+
+  if (!email?.trim()) {
+    throw new Error("Email obrigatório");
+  }
+
+  if (!email.includes("@")) {
+    throw new Error("Email inválido");
+  }  
   const result = await pool.query(
     `
     UPDATE users

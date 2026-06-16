@@ -28,12 +28,12 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(user);
   } catch (err) {
-    console.error(err);
+      console.error(err);
 
-    res.status(500).json({
-      error: "Erro ao criar usuário"
-    });
-  }
+      res.status(400).json({
+        error: err.message
+      });
+    }
 });
 
 
