@@ -1,23 +1,26 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getCurrentUser } from "../services/authService";
 
 function Home() {
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const user = await getCurrentUser();
+
+        console.log(user);
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    loadUser();
+  }, []);
+
   return (
     <div>
-      <h1>Entre Veus</h1>
-
-      <ul>
-        <li>
-          <Link to="/users">
-            Ver usuários
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/create-user">
-            Criar usuário
-          </Link>
-        </li>
-      </ul>
+      <h1>Home</h1>
     </div>
   );
 }

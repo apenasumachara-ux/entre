@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import {
+  getUsers,
+  deleteUser as deleteUserService,
+  updateUser as updateUserService
+} from "../services/userService";
 import { Link } from "react-router-dom";
 
 function Users() {
@@ -12,22 +16,18 @@ function Users() {
 
   async function loadUsers() {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/users"
-      );
+      const users = await getUsers();
 
-      setUsers(response.data);
+      setUsers(users);
     } catch (err) {
       console.error(err);
       setError("Erro ao carregar usuários");
     }
   }
 
-  async function deleteUser(id) {
+  async function handleDeleteUser(id) {
     try {
-      await axios.delete(
-        `http://localhost:3001/api/users/${id}`
-      );
+      await deleteUserService(id);
 
       loadUsers();
     } catch (err) {
@@ -42,15 +42,12 @@ function Users() {
     setEditEmail(user.email);
   }
 
-  async function updateUser() {
+  async function handleUpdateUser() {
     try {
-      await axios.put(
-        `http://localhost:3001/api/users/${editingId}`,
-        {
-          username: editUsername,
-          email: editEmail
-        }
-      );
+      await updateUserService(editingId, {
+        username: editUsername,
+        email: editEmail
+      });
 
       setEditingId(null);
       setEditUsername("");
@@ -98,7 +95,7 @@ function Users() {
                   }
                 />
 
-                <button onClick={updateUser}>
+                <button onClick={handleUpdateUser}>
                   Salvar
                 </button>
 
@@ -125,7 +122,9 @@ function Users() {
                 {" "}
 
                 <button
-                  onClick={() => deleteUser(user.id)}
+                  onClick={() =>
+                    handleDeleteUser(user.id)
+                  }
                 >
                   Excluir
                 </button>
