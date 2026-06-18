@@ -1,26 +1,12 @@
-import { useEffect } from "react";
-import { getCurrentUser } from "../services/authService";
-
 function Home() {
-
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const user = await getCurrentUser();
-
-        console.log(user);
-
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    loadUser();
-  }, []);
-
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Entre Veus</h1>
+
+      <p>
+        Plataforma para gerenciamento de
+        personagens, missões e sistemas de RPG.
+      </p>
     </div>
   );
 }

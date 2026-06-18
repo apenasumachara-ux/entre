@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "RPG";
+  src: url("../assets/fonts/rpg-medieval.ttf");
+}
+
+h1,
+h2,
+h3,
+.nav-title {
+  font-family: "RPG";
+}

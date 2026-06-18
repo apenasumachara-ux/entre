@@ -8,7 +8,7 @@ function Layout({ children }) {
       <main
         style={{
           padding: "2rem",
-          maxWidth: "1000px",
+          maxWidth: "1200px",
           margin: "0 auto"
         }}
       >
